@@ -18,12 +18,12 @@ namespace Assets.Common
 
         public void AddStation(Station station)
         {
-            Stations.Add(station);            
+            Stations.Add(station);
         }
 
         public override string ToString()
         {
-            return string.Format("Line {0}: {1}", Name, string.Join(", ", Stations.Select(st=>st.Name).ToArray()));
+            return string.Format("Line {0}: {1}", Name, string.Join(", ", Stations.Select(st => st.Name).ToArray()));
         }
 
         /// <summary>
@@ -49,10 +49,14 @@ namespace Assets.Common
         public Station GetNextStation(bool direction, Station currentStation)
         {
             int currentIndex = Stations.IndexOf(currentStation);
-            if (currentStation==-1)
-            {
-
-            }
+            if (currentIndex == -1) return null;
+            if (direction)
+                if (currentIndex == Stations.Count - 1)
+                    return null;
+                else
+                    return Stations[currentIndex + 1];
+            if (currentIndex == 0) return null;
+            return Stations[0];       
         }
     }
 }

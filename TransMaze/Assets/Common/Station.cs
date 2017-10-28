@@ -51,6 +51,6 @@ namespace Assets.Common
         public override string ToString()
         {
             return string.Format("Station {0}", Name);
-        }
+        }       
     }
 }
