@@ -6,7 +6,7 @@ using System.Text;
 
 public static class MetroHelper
 {
-    public static string DataFile = "ListeStations.txt";
+    public static string DataFile = "ListeStations";//"Assets/Resources/ListeStations.txt";
     private static MetroGraph _graph = null;
 
     public static Station CurrentStation { get; set; }
@@ -31,6 +31,7 @@ public static class MetroHelper
     public static T GetRandomElement<T,K>(this Dictionary<K,T> dico)
     {
         int nbElement = dico.Count;
+        if (nbElement == 0) return default(T);
         return dico.Values.ElementAt(UnityEngine.Random.Range(0, nbElement));
     }
 

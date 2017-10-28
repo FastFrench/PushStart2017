@@ -51,10 +51,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Common\Connection.cs" />
      <Compile Include="Assets\Common\Line.cs" />
      <Compile Include="Assets\Common\MetroGraph.cs" />
      <Compile Include="Assets\Common\MetroHelper.cs" />
      <Compile Include="Assets\Common\Station.cs" />
+     <Compile Include="Assets\Initialize.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Resources\ListeStations.txt" />

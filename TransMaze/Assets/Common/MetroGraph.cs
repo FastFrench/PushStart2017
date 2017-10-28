@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Common
@@ -17,28 +15,32 @@ namespace Assets.Common
 
         // All Stations known in the graph. 
         public Dictionary<string, Station> Stations { get; set; }
-        
+
         // All the lines known in the graph
         public List<Line> Lines { get; set; }
 
         // Creates and fill a new line, adding it into the graph data
-        public void AddLine(string name, params string[] stationNames)
+        internal void AddLine(string name, params string[] stationNames)
         {
+
             Line line = new Line(name);
             Lines.Add(line);
             Station previousStation = null; // used to compute connections
+            Debug.LogFormat("Ligne {0}: {1}", name, string.Join(", ", stationNames));
             foreach (string stationName in stationNames)
             {
                 Station station = null;
                 if (Stations.ContainsKey(stationName))
                     station = Stations[stationName];
                 else
-                    station = new Station(name);
+                {
+                    station = new Station(stationName);
+                    Stations[stationName] = station;
+                }
                 line.AddStation(station);
-
                 // Manage connections in both directions
-                station.AddConnection(previousStation);
-                if (previousStation!=null) previousStation.AddConnection(station);
+                station.AddConnection(previousStation, line, false);
+                if (previousStation != null) previousStation.AddConnection(station, line, true);
                 previousStation = station;
             }
         }
@@ -48,10 +50,20 @@ namespace Assets.Common
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        static public MetroGraph ImportFile(string fileName = "ListeStations.txt")
+        static internal MetroGraph ImportFile(string fileName = "ListeStations.txt")
         {
-            TextAsset textAsset = Resources.Load<TextAsset>(fileName);
-            if (textAsset == null) return null;
+            var t1 = Resources.Load(fileName);
+            if (t1 == null)
+            {
+                Debug.LogErrorFormat("The file {0} do not exist.", fileName);
+                return null;
+            }
+            TextAsset textAsset = t1 as TextAsset;
+            if (textAsset == null)
+            {
+                Debug.LogErrorFormat("The file {0} exists but is not a valid TextAsset.", fileName);
+                return null;
+            }
             MetroGraph graph = new MetroGraph();
             var fullText = textAsset.text.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             string lineName = null;
@@ -81,8 +93,12 @@ namespace Assets.Common
             Debug.AssertFormat(graph.Lines.Count > 0, "The network loaded from {0} is empty (no line).", fileName);
 
             // Displays some stats about the graph
-            Debug.LogFormat("Number of lines imported: {0} ({1} are shared)", graph.Lines.Count);
-            Debug.LogFormat("Number of stations: {0} ({1} are shared, {2:N2} avg connections per station)", graph.Stations.Count, graph.Stations.Count - graph.Lines.Sum(lin=>lin.Stations.Count), graph.Stations.Average(st=>st.Value.ConnectionCount));
+            Debug.LogFormat("Number of lines imported: {0}", graph.Lines.Count);
+            Debug.LogFormat("Number of stations: {0} ({1}/{2} are shared, {3} avg connections per station)",
+                graph.Stations.Count,
+                graph.Lines.Sum(lin => lin.Stations.Count) - graph.Stations.Count,
+                graph.Lines.Sum(lin => lin.Stations.Count),
+                graph.Stations.Count == 0 ? "NA" : graph.Stations.Average(st => st.Value.ConnectionCount).ToString("N2"));
             return graph;
         }
 
@@ -103,32 +119,35 @@ namespace Assets.Common
 
         internal class Node
         {
-
-        }
-
-        internal class Segment
-        {
-            public Line Line { get; set; }
-            public int StationCount { get; set;}
-
-            public bool IsValid { get; set; }
-            internal Segment(Line line, Station from, Station to)
+            // When line = null, it means that we are outside the station (starting and ending points) 
+            internal Node(Station station, Line line, bool direction, int id)
             {
-                if (line.Stations.Contains(from) && line.Stations.Contains(to))
-                {
-                    StationCount = Math.Abs(line.Stations.IndexOf(from) - line.Stations.IndexOf(to));
-                    IsValid = true;
-                }
-                else
-                {
-                    IsValid = false;
-                    StationCount = 9999; // Arbitrary high value for errors, so there is no chance for this Invalid segment to be kept
-                }
+                Station = station;
+                Line = line;
+                Direction = direction;
+                Id = id;
             }
+            internal int Id { get; set; }
+            Station Station { get; set; }
+            Line Line { get; set; }
+            bool Direction { get; set; }
         }
 
-        public IEnumerable<Station> GetBestPath(Station station1, Station station2)
+
+        internal IEnumerable<Station> GetBestPath(Station station1, Station station2)
         {
+            List<Node> Nodes = new List<Node>();
+            int nodeId = 1;
+            foreach (Line line in Lines)
+                foreach (Station station in line.Stations)
+                {
+                    Nodes.Add(new Node(station, line, true, nodeId++));
+                    Nodes.Add(new Node(station, line, false, nodeId++));
+                }
+            foreach (Station station in Stations.Values)
+                Nodes.Add(new Node(station, null, true, nodeId++));
+
+
             // Temporary simplification: returns the first then the 2nd station, as if they were connected.
             yield return station1;
             yield return station2;
