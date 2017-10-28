@@ -11,13 +11,15 @@ namespace Assets.Common
 
         public List<Line> Lines { get; set; }
 
-        public List<Station> ConnectedStations { get; set; }
+
+
+        public List<Connection> ConnectedStations { get; set; }
 
         public Station(string name)
         {
             Name = name;
             Lines = new List<Line>();
-            ConnectedStations = new List<Station>();
+            ConnectedStations = new List<Connection>();
         }
 
         /// <summary>
@@ -30,11 +32,11 @@ namespace Assets.Common
                 Lines.Add(line);
         }
 
-        public void AddConnection(Station station)
+        public void AddConnection(Station station, Line line, bool direction)
         {
             if (station == null) return;
-            if (!ConnectedStations.Contains(station)) 
-                ConnectedStations.Add(station);
+
+            ConnectedStations.Add(new Connection(station, line, direction));
         }
 
         /// <summary>
