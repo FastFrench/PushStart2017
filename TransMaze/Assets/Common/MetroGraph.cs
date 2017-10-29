@@ -218,8 +218,8 @@ namespace Assets.Common
         //}
 
         #region Search in the graph (pathfinding)       
-        public const float CONNECTIONDELAY = 5.0f; // This gives the time you need when you want to change of line (staying on the same station)
-        public const float DELAYPERSTATION = 1.3f;   // This gives the time per station on the same line.         
+        const float CONNECTIONDELAY = 5.0f; // This gives the time you need when you want to change of line (staying on the same station)
+        const float DELAYPERSTATION = 1.3f;   // This gives the time per station on the same line.         
 
 
         public class Node : IMetroLocation

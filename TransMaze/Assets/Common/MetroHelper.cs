@@ -69,13 +69,6 @@ public static class MetroHelper
         return null;
     }
 
-    public static float NS_GetTransitionCost(Station currentStation, Line currentLine, Line newLine, bool direction)
-    {
-        if (currentLine != newLine)
-            return MetroGraph.CONNECTIONDELAY + MetroGraph.DELAYPERSTATION;
-        return MetroGraph.DELAYPERSTATION;
-    }
-
     /// <summary>
     /// Gets the first station on the line, from current station, and given direction, with a problem. null if none.
     /// </summary>
