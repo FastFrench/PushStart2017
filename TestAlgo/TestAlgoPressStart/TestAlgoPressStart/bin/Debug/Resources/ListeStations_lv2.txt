@@ -1,0 +1,51 @@
+﻿[Ligne 2]
+   Belleville
+   Couronnes
+   Ménilmontant
+   Père Lachaise
+   Philippe Auguste
+   Alexandre Dumas
+   Avron
+   Nation
+[Ligne 3]
+   Arts et Métiers
+   Temple
+   République
+   Parmentier
+   Rue Saint-Maur
+   Père Lachaise
+   Gambetta
+   Porte de Bagnolet
+   Gallieni
+[Ligne 3bis]
+   Gambetta
+   Pelleport
+   Saint-Fargeau
+   Porte des Lilas
+[Ligne 9]
+   République
+   Oberkampf
+   Saint-Ambroise
+   Voltaire
+   Charonne
+   Rue des Boulets
+   Nation
+   Buzenval
+   Maraîchers
+   Porte de Montreuil
+   Robespierre
+   Croix de Chavaux
+   Mairie de Montreuil
+[Ligne 11]
+   Hôtel de Ville
+   Rambuteau
+   Arts et Métiers
+   République
+   Goncourt
+   Belleville
+   Pyrénées
+   Jourdain
+   Place des Fêtes
+   Télégraphe
+   Porte des Lilas
+   Mairie des Lilas

@@ -52,9 +52,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
+     <None Include="Assets\Resources\ListeStations_lv1.txt" />
+     <None Include="Assets\Resources\messages divers lignes.txt" />
+     <None Include="Assets\Resources\ListeStations_lv2.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
-     <None Include="Assets\Resources\ListeStations.txt" />
+     <None Include="Assets\Resources\Messages fermeture ligne.txt" />
+     <None Include="Assets\Resources\ListeStations_lv3.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
