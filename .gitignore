@@ -84,3 +84,8 @@ sysinfo.txt
 ehthumbs.db
 Thumbs.db
 *.lock
+*.csproj
+*.csproj
+TransMaze/Assembly-CSharp.csproj
+*.csproj
+TransMaze/Library/metadata/8c/8ce92ae6d7b0f8448bf82177658437db.info
